@@ -1,0 +1,52 @@
+#+TITTLE: Anisotropic Elasticity
+
+Nearly all crystals are ansitropic in their elastic behaviours.  Crystalline defects, such as interstitials and dislocations, create elastic distortions in the crystals. Quite often, the materials are treated as elastically isotropic.  Such approximations may be insufficient in many cases.  The repository contains derivations and implementations of various methods related to anisotropic elasticity.
+
+* Installation
+
+** Software Prerequisites
+*** Python
+	Python 3 required. The folloing packages are needed to activite all functionalities.
+	- [[https://www.numpy.org][numpy]]
+	- [[https://matplotlib.org][matplotlib]]
+	- [[https://pandas.pydata.org][pandas]]
+	- [[https://www.sympy.org][sympy]]
+	- [[https://ctcms.nist.gov/potentials/atomman/][atomman]]
+
+*** LAMMPS 
+	LAMMPS is used to calculate properties of interatomic potentials.
+
+*** Installation
+	This code can be installed via git as follow
+	
+	#+BEGIN_SRC shell
+	mkdir ~/research
+	cd ~/research
+	git clone git@144.214.73.41:wuntgitlab28/anisotropic-elasticity.git
+	#+END_SRC
+	
+* Examples
+** Calculation of fcc <111>[110] screw dislocation running at finite temperature.
+	For each interatomic potential, a spec file is needed to specify the information of the potential, the crystal structure and the plane on which the gamma surface to be calculated.
+ 	An example for an MEAM potential for Mg developed by Wu et al. is given in the file ‘spec_Mg_wu_2020_am.py’.
+	- To get dislocation initial configuration and calculate it by lammps
+	#+BEGIN_SRC shell
+	cd anisotropic-elasticity/src/calc/dislocation/core/
+	./run.py calc spec_Mg_wu_2020_am.py
+	#+END_SRC
+	
+	- To do calculation of ddplot and nye tensor of quenched cores or several steps of energy minimization cores.
+	#+BEGIN_SRC shell
+	./run.py plot spec_Mg_wu_2020_am.py quench
+  	./run.py plot spec_Mg_wu_2020_am.py emin
+  	#+END_SRC
+  	
+  	- To do post analysis of nye tensor by calculating the standard deviation
+  	#+BEGIN_SRC shell
+	./run.py post_sd spec_Mg_wu_2020_am.py quench
+  	./run.py post_sd spec_Mg_wu_2020_am.py emin
+  	#+END_SRC
+
+* Adding new potentials and properties
+
+
